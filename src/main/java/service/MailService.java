@@ -1,7 +1,6 @@
 package service;
 
 import dao.CodeDao;
-import dao.UserDao;
 import org.apache.log4j.Logger;
 
 import javax.mail.Message;
@@ -19,7 +18,7 @@ public class MailService {
 
     private static final CodeDao codeDao = new CodeDao();
 
-    public String sendMail(String email){
+    public String sendMail(String email) {
         final String username = "matesttest22@gmail.com";
         final String password = "Test12345-";
 

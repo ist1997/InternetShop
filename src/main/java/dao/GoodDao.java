@@ -1,0 +1,91 @@
+package dao;
+
+import db.DatabaseConnector;
+import model.Good;
+import org.apache.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GoodDao {
+
+    private static final String SAVE_METHOD_QUERY = "INSERT INTO internetshop.goods(name, description, price) VALUES (?, ?, ?)";
+    private static final String UPDATE_METHOD_QUERY = "UPDATE internetshop.goods SET name=?,description=?,price=? WHERE id=?";
+    private static final String DELETE_METHOD_QUERY = "DELETE FROM internetshop.goods WHERE id=?";
+    private static final String GET_ALL_METHOD_QUERY = "SELECT * FROM internetshop.goods";
+    private static final String DATABASE_NAME = "internetshop";
+    private static final Logger logger = Logger.getLogger(GoodDao.class);
+
+    public static void save(Good Good) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
+            PreparedStatement ps = connection.prepareStatement(SAVE_METHOD_QUERY);
+            ps.setString(1, Good.getName());
+            ps.setString(2, Good.getDescription());
+            ps.setDouble(3, Good.getPrice());
+            logger.debug("SQL query for save method: " + SAVE_METHOD_QUERY);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
+        }
+    }
+
+    public static void update(Good Good) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
+            PreparedStatement ps = connection.prepareStatement(UPDATE_METHOD_QUERY);
+            ps.setString(1, Good.getName());
+            ps.setString(2, Good.getDescription());
+            ps.setDouble(3, Good.getPrice());
+            ps.setLong(4, Good.getId());
+            logger.debug("SQL query for update method: " + UPDATE_METHOD_QUERY);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
+        }
+    }
+
+    public static void delete(int id) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
+            PreparedStatement ps = connection.prepareStatement(DELETE_METHOD_QUERY);
+            ps.setLong(1, id);
+            logger.debug("SQL query for delete method: " + DELETE_METHOD_QUERY);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
+        }
+    }
+
+    public static List<Good> getAllGoods() {
+        List<Good> goods = new ArrayList<>();
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
+            PreparedStatement ps = connection.prepareStatement(GET_ALL_METHOD_QUERY);
+            logger.debug("SQL query for getAllGoods method: " + GET_ALL_METHOD_QUERY);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Good good = new Good(
+                        rs.getLong(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4)
+                );
+                goods.add(good);
+            }
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
+        }
+        return goods;
+    }
+
+    public static Good getGoodById(int id) {
+        Good returnGood = new Good();
+        for (Good good : getAllGoods()) {
+            if (good.getId() == id) {
+                returnGood = good;
+            }
+        }
+        return returnGood;
+    }
+}

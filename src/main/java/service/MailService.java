@@ -1,8 +1,8 @@
 package service;
 
-import dao.CodeDao;
 import org.apache.log4j.Logger;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -16,8 +16,6 @@ public class MailService {
 
     private static final Logger logger = Logger.getLogger(MailService.class);
 
-    private static final CodeDao codeDao = new CodeDao();
-
     public String sendMail(String email) {
         final String username = "matesttest22@gmail.com";
         final String password = "Test12345-";
@@ -29,7 +27,7 @@ public class MailService {
         prop.put("mail.smtp.starttls.enable", "true"); //TLS
 
         Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
+                new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }

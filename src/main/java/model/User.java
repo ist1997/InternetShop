@@ -18,6 +18,13 @@ public class User {
         this.role = Role.USER;
     }
 
+    public User(String login, String password, String email, Role role) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
     public User(long id, String login, String password, String email, Role role) {
         this.id = id;
         this.login = login;

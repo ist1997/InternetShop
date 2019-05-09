@@ -19,6 +19,7 @@
         <th>Password</th>
         <th>Email</th>
         <th>Role id</th>
+        <th>Salt</th>
         <th>Delete</th>
     </tr>
     <c:forEach var="currUser" items="${users}">
@@ -28,6 +29,7 @@
             <td>${currUser.getPassword()}</td>
             <td>${currUser.getEmail()}</td>
             <td>${currUser.getRole().ordinal() + 1}</td>
+            <td>${currUser.getSalt()}</td>
             <td><a href='delete?id=${currUser.getId()}&type=user'>Delete user</a></td>
         </tr>
     </c:forEach>

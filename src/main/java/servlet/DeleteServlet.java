@@ -18,7 +18,7 @@ public class DeleteServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
-        switch (type){
+        switch (type) {
             case "user":
                 deleteUser(request, response);
                 break;

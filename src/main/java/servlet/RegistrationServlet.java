@@ -27,7 +27,7 @@ public class RegistrationServlet extends HttpServlet {
             logger.debug("User exists: " + newUser.toString());
             request.getRequestDispatcher("registration.jsp").forward(request, response);
         } else {
-            userDao.addUserToDatabase(newUser);
+            UserDao.addUserToDatabase(newUser);
             request.getSession().setAttribute("user", newUser);
             logger.debug("Registered! User: " + newUser.toString());
             request.getRequestDispatcher("marketplace.jsp").forward(request, response);

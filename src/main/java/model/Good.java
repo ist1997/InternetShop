@@ -12,6 +12,12 @@ public class Good {
     public Good() {
     }
 
+    public Good(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public Good(long id, String name, String description, double price) {
         this.id = id;
         this.name = name;

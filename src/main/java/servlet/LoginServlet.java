@@ -1,6 +1,7 @@
 package servlet;
 
 import dao.UserDao;
+import dao.UserDaoHibernate;
 import model.User;
 import org.apache.log4j.Logger;
 import utils.HashUtil;
@@ -15,19 +16,23 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
 
-    private static final UserDao userDao = new UserDao();
+    private static final UserDao userDao = new UserDaoHibernate();
     private static final Logger logger = Logger.getLogger(LoginServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        User user = userDao.getUserFromDatabase(login);
+        User user = userDao.getUserByLogin(login);
         if (user.getId() != 0) {
             String hashedPassword = HashUtil.getSHA512SecurePassword(password, user.getSalt());
             if (user.getPassword().equals(hashedPassword)) {
                 request.getSession().setAttribute("user", user);
                 logger.debug("Logged in! User: " + user.toString());
                 request.getRequestDispatcher("marketplace.jsp").forward(request, response);
+            } else {
+                request.setAttribute("wrongPassword", true);
+                logger.debug("Wrong password");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("userDoesntExist", true);

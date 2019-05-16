@@ -6,7 +6,7 @@
 </head>
 <body>
 <div style="text-align: center;">
-    <c:if test="${userDoesntExist==true}">
+    <c:if test="${userDoesntExist==true || wrongPassword==true}">
         You entered wrong login/password<br>
     </c:if>
     <h1>Log in</h1>

@@ -1,7 +1,9 @@
 package servlet;
 
 import dao.GoodDao;
+import dao.GoodDaoHibernate;
 import dao.UserDao;
+import dao.UserDaoHibernate;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,7 +17,10 @@ import java.io.IOException;
 public class DeleteServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(DeleteServlet.class);
+    private static final UserDao userDao = new UserDaoHibernate();
+    private static final GoodDao goodDao = new GoodDaoHibernate();
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         switch (type) {
@@ -30,14 +35,14 @@ public class DeleteServlet extends HttpServlet {
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        UserDao.delete(id);
+        userDao.delete(id);
         logger.info("Deleted user with id = " + id);
         response.sendRedirect("userlist.jsp");
     }
 
     private void deleteGood(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        GoodDao.delete(id);
+        goodDao.delete(id);
         logger.info("Deleted item with id = " + id);
         response.sendRedirect("marketplace.jsp");
     }

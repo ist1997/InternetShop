@@ -28,7 +28,7 @@ public class AdminFilter implements Filter {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null && user.getRole().equals(Role.ADMIN)) {
             filterChain.doFilter(request, servletResponse);
-        } else if (user.getRole().equals(Role.USER)) {
+        } else if (user != null && user.getRole().equals(Role.USER)) {
             request.getRequestDispatcher("access_denied.jsp").forward(request, servletResponse);
         }
     }

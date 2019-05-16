@@ -1,6 +1,5 @@
 package db;
 
-import dao.UserDao;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -13,7 +12,7 @@ public class DatabaseConnector {
     private static final String PARAMS = "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "1111";
-    private static final Logger logger = Logger.getLogger(UserDao.class);
+    private static final Logger logger = Logger.getLogger(DatabaseConnector.class);
 
     public static Connection getConnection(String dbName) {
         Connection connection = null;

@@ -1,14 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="dao.UserDao" %>
-<c:set var="users" value="${UserDao.getAllUsers()}"/>
+<jsp:useBean id="userDao" class="dao.UserDaoHibernate"/>
 <html>
 <head>
     <title>User list</title>
 </head>
 <body>
 <div style="text-align: center;">
-    <c:out value="You entered as ${user.getLogin()} (${UserDao.getUserRole(user)})"/>
+    <c:out value="You entered as ${user.getLogin()} (${userDao.getUserRole(user)})"/>
     <br>
     <h1>User List</h1>
 </div>
@@ -20,16 +19,18 @@
         <th>Email</th>
         <th>Role id</th>
         <th>Salt</th>
+        <th>Update</th>
         <th>Delete</th>
     </tr>
-    <c:forEach var="currUser" items="${users}">
+    <c:forEach var="currUser" items="${userDao.allUsers}">
         <tr>
             <td>${currUser.getId()}</td>
             <td>${currUser.getLogin()}</td>
             <td>${currUser.getPassword()}</td>
             <td>${currUser.getEmail()}</td>
-            <td>${currUser.getRole().ordinal() + 1}</td>
+            <td>${currUser.getRole().ordinal()}</td>
             <td>${currUser.getSalt()}</td>
+            <td><a href='update?id=${currUser.getId()}&type=user'>Update user</a></td>
             <td><a href='delete?id=${currUser.getId()}&type=user'>Delete user</a></td>
         </tr>
     </c:forEach>

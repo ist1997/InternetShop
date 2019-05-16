@@ -2,7 +2,6 @@ package utils;
 
 import org.apache.log4j.Logger;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,8 +29,10 @@ public class HashUtil {
     }
 
     public static String generateSalt() {
-        byte[] arr = new byte[6];
-        new Random().nextBytes(arr);
-        return new String(arr, Charset.forName("UTF-8"));
+        char[] arr = new char[6];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (char) (new Random().nextInt(91) + 32);
+        }
+        return String.valueOf(arr);
     }
 }

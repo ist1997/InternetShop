@@ -1,7 +1,9 @@
 package servlet;
 
 import dao.GoodDao;
+import dao.GoodDaoHibernate;
 import dao.UserDao;
+import dao.UserDaoHibernate;
 import model.Good;
 import model.Role;
 import model.User;
@@ -15,10 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "AddServlet", value = "/add")
-
 public class AddServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(AddServlet.class);
+    private static final UserDao userDao = new UserDaoHibernate();
+    private static final GoodDao goodDao = new GoodDaoHibernate();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,8 +42,8 @@ public class AddServlet extends HttpServlet {
         String email = request.getParameter("email");
         int roleId = Integer.parseInt(request.getParameter("roleId"));
 
-        User user = new User(login, password, email, Role.values()[roleId - 1]);
-        UserDao.addUserToDatabase(user);
+        User user = new User(login, password, email, Role.values()[roleId]);
+        userDao.add(user);
 
         logger.info("Added user: " + user.toString());
         response.sendRedirect("userlist.jsp");
@@ -52,7 +55,7 @@ public class AddServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
 
         Good good = new Good(name, description, price);
-        GoodDao.save(good);
+        goodDao.add(good);
 
         logger.info("Added good: " + good.toString());
         response.sendRedirect("marketplace.jsp");

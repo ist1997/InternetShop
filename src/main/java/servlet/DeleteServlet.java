@@ -16,9 +16,9 @@ import java.io.IOException;
 @WebServlet(name = "DeleteServlet", value = "/delete")
 public class DeleteServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DeleteServlet.class);
-    private static final UserDao userDao = new UserDaoHibernate();
-    private static final GoodDao goodDao = new GoodDaoHibernate();
+    private static final Logger LOGGER = Logger.getLogger(DeleteServlet.class);
+    private static final UserDao USER_DAO = new UserDaoHibernate();
+    private static final GoodDao GOOD_DAO = new GoodDaoHibernate();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,15 +35,15 @@ public class DeleteServlet extends HttpServlet {
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        userDao.delete(id);
-        logger.info("Deleted user with id = " + id);
+        USER_DAO.delete(id);
+        LOGGER.info("Deleted user with id = " + id);
         response.sendRedirect("userlist.jsp");
     }
 
     private void deleteGood(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        goodDao.delete(id);
-        logger.info("Deleted item with id = " + id);
+        GOOD_DAO.delete(id);
+        LOGGER.info("Deleted item with id = " + id);
         response.sendRedirect("marketplace.jsp");
     }
 }

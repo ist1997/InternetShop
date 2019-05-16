@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class HashUtil {
 
-    private static final Logger logger = Logger.getLogger(HashUtil.class);
+    private static final Logger LOGGER = Logger.getLogger(HashUtil.class);
 
     public static String getSHA512SecurePassword(String passwordToHash, String salt) {
         String generatedPassword = "";
@@ -23,7 +23,7 @@ public class HashUtil {
             }
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
         return generatedPassword;
     }

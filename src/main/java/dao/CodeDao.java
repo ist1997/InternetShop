@@ -7,13 +7,13 @@ import java.util.List;
 
 public class CodeDao {
 
-    private static final List<Code> codes = new ArrayList<>();
+    private static final List<Code> CODES = new ArrayList<>();
 
     public void addCode(Code code) {
-        codes.add(code);
+        CODES.add(code);
     }
 
     public boolean checkCode(Code code) {
-        return codes.contains(code);
+        return CODES.contains(code);
     }
 }

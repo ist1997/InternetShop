@@ -19,9 +19,9 @@ import java.io.IOException;
 @WebServlet(name = "UpdateServlet", value = "/update")
 public class UpdateServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(UpdateServlet.class);
-    private static final UserDao userDao = new UserDaoHibernate();
-    private static final GoodDao goodDao = new GoodDaoHibernate();
+    private static final Logger LOGGER = Logger.getLogger(UpdateServlet.class);
+    private static final UserDao USER_DAO = new UserDaoHibernate();
+    private static final GoodDao GOOD_DAO = new GoodDaoHibernate();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,12 +42,12 @@ public class UpdateServlet extends HttpServlet {
         String type = req.getParameter("type");
         switch (type) {
             case "user":
-                User user = userDao.getUserById(id);
+                User user = USER_DAO.getUserById(id);
                 req.setAttribute("user", user);
                 req.getRequestDispatcher("update_user.jsp").forward(req, resp);
                 break;
             case "good":
-                Good good = goodDao.getGoodById(id);
+                Good good = GOOD_DAO.getGoodById(id);
                 req.setAttribute("good", good);
                 req.getRequestDispatcher("update_good.jsp").forward(req, resp);
                 break;
@@ -63,9 +63,9 @@ public class UpdateServlet extends HttpServlet {
         String salt = request.getParameter("salt");
 
         User user = new User(id, login, password, email, Role.values()[(int) roleId], salt);
-        userDao.update(user);
+        USER_DAO.update(user);
 
-        logger.info("Added user: " + user.toString());
+        LOGGER.info("Added user: " + user.toString());
         response.sendRedirect("userlist.jsp");
     }
 
@@ -76,9 +76,9 @@ public class UpdateServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price").split(" ")[0]);
 
         Good good = new Good(id, name, description, price);
-        goodDao.update(good);
+        GOOD_DAO.update(good);
 
-        logger.info("Added good: " + good.toString());
+        LOGGER.info("Added good: " + good.toString());
         response.sendRedirect("marketplace.jsp");
     }
 }

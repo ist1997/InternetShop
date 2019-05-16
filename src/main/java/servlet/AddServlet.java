@@ -19,9 +19,9 @@ import java.io.IOException;
 @WebServlet(name = "AddServlet", value = "/add")
 public class AddServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(AddServlet.class);
-    private static final UserDao userDao = new UserDaoHibernate();
-    private static final GoodDao goodDao = new GoodDaoHibernate();
+    private static final Logger LOGGER = Logger.getLogger(AddServlet.class);
+    private static final UserDao USER_DAO = new UserDaoHibernate();
+    private static final GoodDao GOOD_DAO = new GoodDaoHibernate();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,9 +43,9 @@ public class AddServlet extends HttpServlet {
         int roleId = Integer.parseInt(request.getParameter("roleId"));
 
         User user = new User(login, password, email, Role.values()[roleId]);
-        userDao.add(user);
+        USER_DAO.add(user);
 
-        logger.info("Added user: " + user.toString());
+        LOGGER.info("Added user: " + user.toString());
         response.sendRedirect("userlist.jsp");
     }
 
@@ -55,9 +55,9 @@ public class AddServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
 
         Good good = new Good(name, description, price);
-        goodDao.add(good);
+        GOOD_DAO.add(good);
 
-        logger.info("Added good: " + good.toString());
+        LOGGER.info("Added good: " + good.toString());
         response.sendRedirect("marketplace.jsp");
     }
 }

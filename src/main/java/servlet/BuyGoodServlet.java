@@ -15,8 +15,8 @@ import java.io.IOException;
 @WebServlet(name = "BuyGoodServlet", value = "/buy")
 public class BuyGoodServlet extends HttpServlet {
 
-    private static final MailService mailService = new MailService();
-    private static final CodeDao codeDao = new CodeDao();
+    private static final MailService MAIL_SERVICE = new MailService();
+    private static final CodeDao CODE_DAO = new CodeDao();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +24,7 @@ public class BuyGoodServlet extends HttpServlet {
         String codeValue = req.getParameter("code");
         User user = (User) req.getSession().getAttribute("user");
         Code code = new Code(codeValue, user.getId(), goodId);
-        if (codeDao.checkCode(code)) {
+        if (CODE_DAO.checkCode(code)) {
             resp.getWriter().println("Success");
         } else {
             resp.getWriter().println("Failed");
@@ -35,9 +35,9 @@ public class BuyGoodServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = Long.valueOf(req.getParameter("id"));
         User user = (User) req.getSession().getAttribute("user");
-        String codeValue = mailService.sendMail(user.getEmail());
+        String codeValue = MAIL_SERVICE.sendMail(user.getEmail());
         Code code = new Code(codeValue, user.getId(), id);
-        codeDao.addCode(code);
+        CODE_DAO.addCode(code);
         req.setAttribute("good_id", id);
         req.getRequestDispatcher("entercode.jsp").forward(req, resp);
     }

@@ -14,7 +14,7 @@ import java.util.Properties;
 
 public class MailService {
 
-    private static final Logger logger = Logger.getLogger(MailService.class);
+    private static final Logger LOGGER = Logger.getLogger(MailService.class);
 
     public String sendMail(String email) {
         final String username = "matesttest22@gmail.com";
@@ -43,7 +43,7 @@ public class MailService {
             Transport.send(message);
             return code;
         } catch (MessagingException e) {
-            logger.error("Can`t connect to from-address");
+            LOGGER.error("Can`t connect to from-address");
             return "";
         }
     }

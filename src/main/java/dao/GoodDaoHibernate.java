@@ -40,7 +40,6 @@ public class GoodDaoHibernate implements GoodDao {
         tx1.commit();
         session.close();
         LOGGER.debug("Good updated!");
-
     }
 
     @Override

@@ -32,7 +32,7 @@ public class UserDaoJdbc implements UserDao {
             ps.setString(2, HashUtil.getSHA512SecurePassword(user.getPassword(), user.getSalt()));
             ps.setString(3, user.getEmail());
             ps.setLong(4, user.getRole().ordinal());
-            ps.setString(5, user.getSalt());
+            ps.setString(5, user.getSalt())
             LOGGER.debug("SQL query for addUserToDatabase method: " + ADD_METHOD_QUERY);
             ps.executeUpdate();
         } catch (SQLException e) {

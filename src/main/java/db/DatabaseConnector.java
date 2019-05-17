@@ -12,20 +12,20 @@ public class DatabaseConnector {
     private static final String PARAMS = "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "1111";
-    private static final Logger logger = Logger.getLogger(DatabaseConnector.class);
+    private static final Logger LOGGER = Logger.getLogger(DatabaseConnector.class);
 
     public static Connection getConnection(String dbName) {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            logger.debug("Driver class connected");
+            LOGGER.debug("Driver class connected");
             String url = LOCALHOST_URL + dbName + PARAMS;
             connection = DriverManager.getConnection(url, USER, PASSWORD);
-            logger.debug("Connection completed");
+            LOGGER.debug("Connection completed");
         } catch (ClassNotFoundException e) {
-            logger.error("Can`t find Driver class", e);
+            LOGGER.error("Can`t find Driver class", e);
         } catch (SQLException e) {
-            logger.error("Can`t connect to database", e);
+            LOGGER.error("Can`t connect to database", e);
         }
         return connection;
     }

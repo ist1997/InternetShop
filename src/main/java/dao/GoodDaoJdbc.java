@@ -18,7 +18,7 @@ public class GoodDaoJdbc implements GoodDao {
     private static final String DELETE_METHOD_QUERY = "DELETE FROM internetshop.goods WHERE id=?";
     private static final String GET_ALL_METHOD_QUERY = "SELECT * FROM internetshop.goods";
     private static final String DATABASE_NAME = "internetshop";
-    private static final Logger logger = Logger.getLogger(GoodDaoJdbc.class);
+    private static final Logger LOGGER = Logger.getLogger(GoodDaoJdbc.class);
 
     @Override
     public void add(Good good) {
@@ -27,10 +27,10 @@ public class GoodDaoJdbc implements GoodDao {
             ps.setString(1, good.getName());
             ps.setString(2, good.getDescription());
             ps.setDouble(3, good.getPrice());
-            logger.debug("SQL query for save method: " + SAVE_METHOD_QUERY);
+            LOGGER.debug("SQL query for save method: " + SAVE_METHOD_QUERY);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can`t connect to database", e);
+            LOGGER.error("Can`t connect to database", e);
         }
     }
 
@@ -42,10 +42,10 @@ public class GoodDaoJdbc implements GoodDao {
             ps.setString(2, Good.getDescription());
             ps.setDouble(3, Good.getPrice());
             ps.setLong(4, Good.getId());
-            logger.debug("SQL query for update method: " + UPDATE_METHOD_QUERY);
+            LOGGER.debug("SQL query for update method: " + UPDATE_METHOD_QUERY);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can`t connect to database", e);
+            LOGGER.error("Can`t connect to database", e);
         }
     }
 
@@ -54,10 +54,10 @@ public class GoodDaoJdbc implements GoodDao {
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
             PreparedStatement ps = connection.prepareStatement(DELETE_METHOD_QUERY);
             ps.setLong(1, id);
-            logger.debug("SQL query for delete method: " + DELETE_METHOD_QUERY);
+            LOGGER.debug("SQL query for delete method: " + DELETE_METHOD_QUERY);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Can`t connect to database", e);
+            LOGGER.error("Can`t connect to database", e);
         }
     }
 
@@ -77,7 +77,7 @@ public class GoodDaoJdbc implements GoodDao {
         List<Good> goods = new ArrayList<>();
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
             PreparedStatement ps = connection.prepareStatement(GET_ALL_METHOD_QUERY);
-            logger.debug("SQL query for getAllGoods method: " + GET_ALL_METHOD_QUERY);
+            LOGGER.debug("SQL query for getAllGoods method: " + GET_ALL_METHOD_QUERY);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Good good = new Good(
@@ -89,7 +89,7 @@ public class GoodDaoJdbc implements GoodDao {
                 goods.add(good);
             }
         } catch (SQLException e) {
-            logger.error("Can`t connect to database", e);
+            LOGGER.error("Can`t connect to database", e);
         }
         return goods;
     }

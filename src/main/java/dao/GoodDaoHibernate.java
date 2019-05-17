@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GoodDaoHibernate implements GoodDao {
 
-    private static final Logger logger = Logger.getLogger(GoodDaoHibernate.class);
+    private static final Logger LOGGER = Logger.getLogger(GoodDaoHibernate.class);
 
     @Override
     public void add(Good good) {
@@ -19,7 +19,7 @@ public class GoodDaoHibernate implements GoodDao {
         session.save(good);
         tx1.commit();
         session.close();
-        logger.debug("Good added!");
+        LOGGER.debug("Good added!");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class GoodDaoHibernate implements GoodDao {
         session.delete(getGoodById(id));
         tx1.commit();
         session.close();
-        logger.debug("Good deleted!");
+        LOGGER.debug("Good deleted!");
     }
 
     @Override
@@ -39,8 +39,7 @@ public class GoodDaoHibernate implements GoodDao {
         session.update(good);
         tx1.commit();
         session.close();
-        logger.debug("Good updated!");
-
+        LOGGER.debug("Good updated!");
     }
 
     @Override

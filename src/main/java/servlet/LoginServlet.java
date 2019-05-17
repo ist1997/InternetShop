@@ -16,27 +16,27 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
 
-    private static final UserDao userDao = new UserDaoHibernate();
-    private static final Logger logger = Logger.getLogger(LoginServlet.class);
+    private static final UserDao USER_DAO = new UserDaoHibernate();
+    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        User user = userDao.getUserByLogin(login);
+        User user = USER_DAO.getUserByLogin(login);
         if (user.getId() != 0) {
             String hashedPassword = HashUtil.getSHA512SecurePassword(password, user.getSalt());
             if (user.getPassword().equals(hashedPassword)) {
                 request.getSession().setAttribute("user", user);
-                logger.debug("Logged in! User: " + user.toString());
+                LOGGER.debug("Logged in! User: " + user.toString());
                 request.getRequestDispatcher("marketplace.jsp").forward(request, response);
             } else {
                 request.setAttribute("wrongPassword", true);
-                logger.debug("Wrong password");
+                LOGGER.debug("Wrong password");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("userDoesntExist", true);
-            logger.debug("User does not exist: " + user.toString());
+            LOGGER.debug("User does not exist: " + user.toString());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }

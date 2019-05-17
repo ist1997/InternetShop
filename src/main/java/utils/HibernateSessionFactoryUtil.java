@@ -10,7 +10,7 @@ import org.hibernate.cfg.Configuration;
 public class HibernateSessionFactoryUtil {
 
     private static SessionFactory sessionFactory;
-    private static final Logger logger = Logger.getLogger(HibernateSessionFactoryUtil.class);
+    private static final Logger LOGGER = Logger.getLogger(HibernateSessionFactoryUtil.class);
 
     private HibernateSessionFactoryUtil() {
     }
@@ -25,7 +25,7 @@ public class HibernateSessionFactoryUtil {
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 
             } catch (Exception e) {
-                logger.error("Exception! " + e);
+                LOGGER.error("Exception! " + e);
             }
         }
         return sessionFactory;

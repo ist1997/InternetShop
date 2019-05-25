@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Update information about user</h1>
-<form action="update" method="post">
+<form action="/admin/updateUser" method="post">
     <table>
         <tr>
             <td>Id:</td>
@@ -33,14 +33,12 @@
             <td><input type="text" readonly name="salt" value="${user.getSalt()}"/></td>
         </tr>
         <tr>
-            <input type="hidden" name="type" value="user" />
+            <input type="hidden" name="type" value="user"/>
             <td colspan="2"><input type="submit" value="Save"/></td>
         </tr>
     </table>
 </form>
 <br/>
-<form action="userlist.jsp">
-    <input type="submit" value="Back to user list">
-</form>
+<a href="/admin/users">Back to user list</a>
 </body>
 </html>

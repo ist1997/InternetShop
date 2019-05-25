@@ -5,7 +5,7 @@
     <title>Add new user</title>
 </head>
 <body>
-<form action="add" method="post">
+<form action="/admin/addUser" method="post">
     <table>
         <tr>
             <td>Login:</td>
@@ -24,14 +24,12 @@
             <td><input type="number" name="roleId"/></td>
         </tr>
         <tr>
-            <input type="hidden" name="type" value="user" />
+            <input type="hidden" name="type" value="user"/>
             <td colspan="2"><input type="submit" value="Add user"/></td>
         </tr>
     </table>
 </form>
-<br/>
-<form action="userlist.jsp">
-    <input type="submit" value="Back to user list">
-</form>
+<br>
+<a href="/admin/users">Back to user list</a>
 </body>
 </html>

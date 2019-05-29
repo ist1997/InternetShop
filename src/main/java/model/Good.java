@@ -2,10 +2,13 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +28,9 @@ public class Good {
 
     @Column(name = "price")
     private double price;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "goods")
+    private List<Order> orders;
 
     public Good() {
     }
@@ -66,12 +72,13 @@ public class Good {
         return id == good.id &&
                 Double.compare(good.price, price) == 0 &&
                 Objects.equals(name, good.name) &&
-                Objects.equals(description, good.description);
+                Objects.equals(description, good.description) &&
+                Objects.equals(orders, good.orders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, price);
+        return Objects.hash(id, name, description, price, orders);
     }
 
     @Override

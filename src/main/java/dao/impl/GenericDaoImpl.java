@@ -38,11 +38,17 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
     @Override
     public T getItemById(Class<T> clazz, long id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(clazz, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        T object = session.get(clazz, id);
+        session.close();
+        return object;
     }
 
     @Override
     public List<T> getAllItems(Class<T> clazz) {
-        return (List<T>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From " + clazz.getName()).list();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<T> objects = (List<T>) session.createQuery("From " + clazz.getName()).list();
+        session.close();
+        return objects;
     }
 }

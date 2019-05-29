@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -33,6 +34,9 @@ public class User {
 
     @Column(name = "salt")
     private String salt;
+
+    @OneToOne(mappedBy = "user")
+    private Order order;
 
     public User() {
     }
@@ -66,24 +70,56 @@ public class User {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getLogin() {
         return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Role getRole() {
         return role;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getSalt() {
         return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
@@ -96,12 +132,13 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 role == user.role &&
-                Objects.equals(salt, user.salt);
+                Objects.equals(salt, user.salt) &&
+                Objects.equals(order, user.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, role, salt);
+        return Objects.hash(id, login, password, email, role, salt, order);
     }
 
     @Override

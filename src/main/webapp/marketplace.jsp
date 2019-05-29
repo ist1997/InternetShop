@@ -16,7 +16,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
-        <th>Buy</th>
+        <th>Add to order</th>
     </tr>
     <c:forEach var="good" items="${goods}">
         <tr>
@@ -24,9 +24,13 @@
             <td>${good.getName()}</td>
             <td>${good.getDescription()}</td>
             <td>${good.getPrice()} UAH</td>
-            <td><a href='buy?id=${good.getId()}'>Buy!</a></td>
+            <td><a href='addToOrder?id=${good.getId()}'>Add to order</a></td>
         </tr>
     </c:forEach>
 </table>
+<br>
+<h2>Your order</h2>
+<p>Count of goods: ${goodsCount}</p>
+<a href="/buy">Buy!</a>
 </body>
 </html>

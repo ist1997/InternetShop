@@ -33,15 +33,7 @@ public class LoginServlet extends HttpServlet {
         if (user.getId() != 0) {
             String hashedPassword = HashUtil.getSHA512SecurePassword(password, user.getSalt());
             if (user.getPassword().equals(hashedPassword)) {
-                request.getSession().setAttribute("user", user);
-                if (user.getRole().equals(Role.ADMIN)) {
-                    response.sendRedirect("/admin/marketplace");
-                } else if (user.getRole().equals(Role.USER)) {
-                    response.sendRedirect("/marketplace");
-                } else {
-                    logger.debug("Undefined role");
-                }
-                logger.debug("Logged in! User: " + user.toString());
+                login(request, response, user);
             } else {
                 request.setAttribute("wrongPassword", true);
                 logger.debug("Wrong password");
@@ -52,5 +44,17 @@ public class LoginServlet extends HttpServlet {
             logger.debug("User does not exist: " + user.toString());
             request.getRequestDispatcher("/login").forward(request, response);
         }
+    }
+
+    private final void login(HttpServletRequest request, HttpServletResponse response, User user) throws ServletException, IOException {
+        request.getSession().setAttribute("user", user);
+        if (user.getRole().equals(Role.ADMIN)) {
+            response.sendRedirect("/admin/marketplace");
+        } else if (user.getRole().equals(Role.USER)) {
+            response.sendRedirect("/marketplace");
+        } else {
+            logger.debug("Undefined role");
+        }
+        logger.debug("Logged in! User: " + user.toString());
     }
 }

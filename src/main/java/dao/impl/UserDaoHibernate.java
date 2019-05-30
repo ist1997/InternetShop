@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.UserDao;
 import model.User;
+import org.hibernate.Session;
 import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
@@ -10,11 +11,17 @@ public class UserDaoHibernate extends GenericDaoImpl<User> implements UserDao {
 
     @Override
     public User getUserByLogin(String login) {
-        List<User> users = ((List<User>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From User WHERE login = '" + login + "'").list());
-        if (users.size() != 0) {
-            return users.get(0);
-        } else {
-            return new User();
+        try (Session session = HibernateSessionFactoryUtil
+                .getSessionFactory()
+                .openSession()) {
+            List<User> users = ((List<User>) session
+                    .createQuery("From User WHERE login = '" + login + "'")
+                    .list());
+            if (users.size() != 0) {
+                return users.get(0);
+            } else {
+                return new User();
+            }
         }
     }
 
@@ -26,7 +33,10 @@ public class UserDaoHibernate extends GenericDaoImpl<User> implements UserDao {
 
     @Override
     public String getUserRole(User user) {
-        return getUserByLogin(user.getLogin()).getRole().toString();
+        return getUserByLogin(user
+                .getLogin())
+                .getRole()
+                .toString();
     }
 
 }

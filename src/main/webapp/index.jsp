@@ -2,23 +2,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Registration</title>
+    <title>Log in</title>
 </head>
 <body>
 <div style="text-align: center;">
-    <c:if test="${userExists==true}">
-        This user is already exists in database!<br>
+    <c:if test="${userDoesntExist==true || wrongPassword==true}">
+        You entered wrong login/password<br>
     </c:if>
-    <h1>Registration</h1>
-    <form action="registration" method="post">
+    <h1>Log in</h1>
+    <form action="login" method="post">
         Login <input type="text" name="login">
         Password <input type="password" name="password">
-        Email <input type="email" name="email">
-        <input type="submit" value="Registration">
+        <input type="submit" value="Log in">
     </form>
     <form>
-        Have an account?
-        <a href="index.jsp">Log in</a>
+        Haven`t any account?
+        <a href="/registration">Registration</a>
     </form>
 </div>
 </body>

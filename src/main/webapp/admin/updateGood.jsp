@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Update information about good</h1>
-<form action="update" method="post">
+<form action="/admin/updateGood" method="post">
     <table>
         <tr>
             <td>Id:</td>
@@ -25,14 +25,12 @@
             <td><input type="number" name="price" value="${good.getPrice()}"/></td>
         </tr>
         <tr>
-            <input type="hidden" name="type" value="good" />
+            <input type="hidden" name="type" value="good"/>
             <td colspan="2"><input type="submit" value="Save"/></td>
         </tr>
     </table>
 </form>
 <br/>
-<form action="marketplace.jsp">
-    <input type="submit" value="Back to good list">
-</form>
+<a href="/admin/marketplace">Back to good list</a>
 </body>
 </html>

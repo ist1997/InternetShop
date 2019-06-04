@@ -1,4 +1,4 @@
-package dao;
+package dao.impl;
 
 import model.Code;
 
@@ -7,13 +7,13 @@ import java.util.List;
 
 public class CodeDao {
 
-    private static final List<Code> CODES = new ArrayList<>();
+    private static final List<Code> codes = new ArrayList<>();
 
     public void addCode(Code code) {
-        CODES.add(code);
+        codes.add(code);
     }
 
     public boolean checkCode(Code code) {
-        return CODES.contains(code);
+        return codes.contains(code);
     }
 }

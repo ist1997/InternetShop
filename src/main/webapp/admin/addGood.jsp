@@ -5,7 +5,7 @@
     <title>Add new item</title>
 </head>
 <body>
-<form action="add" method="post">
+<form action="/admin/addGood" method="post">
     <table>
         <tr>
             <td>Name:</td>
@@ -20,14 +20,12 @@
             <td><input type="number" name="price"/></td>
         </tr>
         <tr>
-            <input type="hidden" name="type" value="good" />
+            <input type="hidden" name="type" value="good"/>
             <td colspan="2"><input type="submit" value="Add item"/></td>
         </tr>
     </table>
 </form>
 <br/>
-<form action="marketplace.jsp">
-    <input type="submit" value="Back to good list">
-</form>
+<a href="/admin/marketplace">Back to good list</a>
 </body>
 </html>

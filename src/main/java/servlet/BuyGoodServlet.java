@@ -1,7 +1,12 @@
 package servlet;
 
-import dao.CodeDao;
+import dao.OrderDao;
+import dao.UserDao;
+import dao.impl.CodeDao;
+import dao.impl.OrderDaoHibernate;
+import dao.impl.UserDaoHibernate;
 import model.Code;
+import model.Order;
 import model.User;
 import service.MailService;
 
@@ -15,17 +20,22 @@ import java.io.IOException;
 @WebServlet(name = "BuyGoodServlet", value = "/buy")
 public class BuyGoodServlet extends HttpServlet {
 
-    private static final MailService MAIL_SERVICE = new MailService();
-    private static final CodeDao CODE_DAO = new CodeDao();
+    private static final MailService mailService = new MailService();
+    private static final CodeDao codeDao = new CodeDao();
+    private static final UserDao userDao = new UserDaoHibernate();
+    private static final OrderDao orderDao = new OrderDaoHibernate();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long goodId = Long.valueOf(req.getParameter("good_id"));
+        long orderId = Long.valueOf(req.getParameter("order_id"));
         String codeValue = req.getParameter("code");
         User user = (User) req.getSession().getAttribute("user");
-        Code code = new Code(codeValue, user.getId(), goodId);
-        if (CODE_DAO.checkCode(code)) {
-            resp.getWriter().println("Success");
+        Code code = new Code(codeValue, user.getId(), orderId);
+        if (codeDao.checkCode(code)) {
+            User userFromDb = userDao.getItemById(User.class, user.getId());
+            Order orderToDelete = userFromDb.getOrder();
+            orderDao.delete(orderToDelete);
+            resp.sendRedirect("/success");
         } else {
             resp.getWriter().println("Failed");
         }
@@ -33,12 +43,13 @@ public class BuyGoodServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long id = Long.valueOf(req.getParameter("id"));
-        User user = (User) req.getSession().getAttribute("user");
-        String codeValue = MAIL_SERVICE.sendMail(user.getEmail());
-        Code code = new Code(codeValue, user.getId(), id);
-        CODE_DAO.addCode(code);
-        req.setAttribute("good_id", id);
-        req.getRequestDispatcher("entercode.jsp").forward(req, resp);
+        User userFromSession = (User) req.getSession().getAttribute("user");
+        User userFromDb = userDao.getItemById(User.class, userFromSession.getId());
+        String codeValue = mailService.sendMail(userFromDb.getEmail());
+        long orderId = userFromDb.getOrder().getId();
+        Code code = new Code(codeValue, userFromDb.getId(), orderId);
+        codeDao.addCode(code);
+        req.setAttribute("order_id", orderId);
+        resp.sendRedirect("/enterCode");
     }
 }

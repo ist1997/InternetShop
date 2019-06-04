@@ -1,7 +1,7 @@
 package servlet;
 
 import dao.UserDao;
-import dao.UserDaoHibernate;
+import dao.impl.UserDaoHibernate;
 import model.User;
 import org.apache.log4j.Logger;
 
@@ -18,6 +18,7 @@ public class RegistrationServlet extends HttpServlet {
     private static final UserDao USER_DAO = new UserDaoHibernate();
     private static final Logger LOGGER = Logger.getLogger(RegistrationServlet.class);
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -26,12 +27,17 @@ public class RegistrationServlet extends HttpServlet {
         if (USER_DAO.isUserExists(newUser)) {
             request.setAttribute("userExists", true);
             LOGGER.debug("User exists: " + newUser.toString());
-            request.getRequestDispatcher("registration.jsp").forward(request, response);
+            response.sendRedirect("/registration");
         } else {
             USER_DAO.add(newUser);
             request.getSession().setAttribute("user", newUser);
             LOGGER.debug("Registered! User: " + newUser.toString());
-            request.getRequestDispatcher("marketplace.jsp").forward(request, response);
+            response.sendRedirect("/marketplace");
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("registration.jsp").forward(req, resp);
     }
 }

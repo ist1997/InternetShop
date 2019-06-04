@@ -6,12 +6,12 @@ public class Code {
 
     private String value;
     private long userId;
-    private long goodId;
+    private long orderId;
 
-    public Code(String value, long userId, long goodId) {
+    public Code(String value, long userId, long orderId) {
         this.value = value;
         this.userId = userId;
-        this.goodId = goodId;
+        this.orderId = orderId;
     }
 
     @Override
@@ -20,12 +20,12 @@ public class Code {
         if (o == null || getClass() != o.getClass()) return false;
         Code code = (Code) o;
         return userId == code.userId &&
-                goodId == code.goodId &&
+                orderId == code.orderId &&
                 Objects.equals(value, code.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, userId, goodId);
+        return Objects.hash(value, userId, orderId);
     }
 }

@@ -41,14 +41,6 @@ public class User {
     public User() {
     }
 
-    public User(String login, String password, String email) {
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.role = Role.USER;
-        this.salt = HashUtil.generateSalt();
-    }
-
     public User(String login, String password, String email, Role role) {
         this.login = login;
         this.salt = HashUtil.generateSalt();
